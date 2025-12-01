@@ -1,0 +1,387 @@
+import { Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import "./index.css";
+import { useState, useEffect } from "react";
+
+// ✅ Project Images
+import churnImg from "../Projects Img/Churn Analysis.png";
+import klimateImg from "../Projects Img/Klimate.png";
+import mernImg from "../Projects Img/Mern Auth .png";
+
+export default function Portfolio() {
+  const skillData = [
+    { name: "Python", category: "Programming", percent: "85%" },
+    { name: "JavaScript", category: "Programming", percent: "80%" },
+    { name: "TypeScript", category: "Programming", percent: "70%" },
+    { name: "SQL", category: "Databases", percent: "75%" },
+    { name: "MongoDB", category: "Databases", percent: "70%" },
+    { name: "Power BI", category: "Visualization", percent: "80%" },
+    { name: "Tableau", category: "Visualization", percent: "70%" },
+    { name: "React.js", category: "Web", percent: "85%" },
+    { name: "Node.js", category: "Web", percent: "80%" },
+    { name: "Express.js", category: "Web", percent: "75%" },
+    { name: "Tailwind CSS", category: "Styling", percent: "90%" },
+    { name: "HTML", category: "Styling", percent: "95%" },
+    { name: "CSS", category: "Styling", percent: "90%" },
+  ];
+
+  // **Scroll Spy State**
+  const [activeSection, setActiveSection] = useState("hero");
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { root: null, rootMargin: "0px", threshold: 0.6 } // 60% visible
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => sections.forEach((section) => observer.unobserve(section));
+  }, []);
+
+  // Scroll to section smoothly
+  const scrollToSection = (id: any) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    const start = window.pageYOffset;
+    const end = target.offsetTop;
+    const duration = 700;
+    let startTime: any = null;
+
+    const animateScroll = (currentTime: any) => {
+      if (!startTime) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      window.scrollTo(0, start + (end - start) * progress);
+      if (progress < 1) requestAnimationFrame(animateScroll);
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
+ function SkillsSection() {
+  const [activeTab, setActiveTab] = useState("All");
+  const [prevTab, setPrevTab] = useState("All");
+  const [skipInitial, setSkipInitial] = useState(true); // skip animation for initial load
+  const tabs = ["All", "Programming", "Databases", "Visualization", "Web", "Styling"];
+  const filteredSkills =
+    activeTab === "All"
+      ? skillData
+      : skillData.filter((skill) => skill.category === activeTab);
+
+  // Detect first time Skills section comes into view
+  useEffect(() => {
+    const section = document.getElementById("skills");
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setSkipInitial(false); // after first scroll into view
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="w-full max-w-6xl">
+      <h2 className="text-5xl font-bold text-center mb-12">
+        My <span className="text-purple-400">Skills</span>
+      </h2>
+
+      <div className="flex flex-wrap justify-center gap-4 mb-16">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => {
+              setPrevTab(activeTab);
+              setActiveTab(tab);
+            }}
+            className={`px-5 py-2 rounded-full border border-white/20 backdrop-blur-md transition ${
+              activeTab === tab
+                ? "bg-purple-600/40 text-white scale-105"
+                : "hover:bg-white/10 text-gray-300"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <AnimatePresence mode="wait">
+          {filteredSkills.map((skill, index) => (
+            <motion.div
+              key={skill.name}
+              initial={
+                !skipInitial && prevTab !== activeTab
+                  ? { opacity: 0, y: 25, scale: 0.9 }
+                  : false
+              }
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -25, scale: 0.9 }}
+              transition={{
+                duration: 0.35,
+                delay: !skipInitial && prevTab !== activeTab ? index * 0.05 : 0,
+              }}
+              className="bg-white/5 p-6 rounded-xl border border-white/10 shadow-xl"
+            >
+              <h3 className="text-lg mb-3">{skill.name}</h3>
+              <div className="w-full bg-white/10 rounded-full h-2 mb-2">
+                <motion.div
+                  initial={
+                    !skipInitial && prevTab !== activeTab ? { width: 0 } : false
+                  }
+                  animate={{ width: skill.percent }}
+                  transition={{ duration: 0.7 }}
+                  className="bg-purple-500 h-2 rounded-full"
+                ></motion.div>
+              </div>
+              <p className="text-sm text-right text-gray-400">{skill.percent}</p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+  return (
+    <div className="bg-[#0a0a0f] text-white font-sans scroll-smooth">
+      {/* NAVBAR */}
+      <nav className="fixed top-0 left-0 w-full bg-black/40 backdrop-blur-lg z-50 px-6 py-4 flex justify-between items-center">
+        <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-2xl font-bold">
+          A
+        </div>
+        <div className="hidden md:flex space-x-8 text-lg">
+          {[
+            { id: "hero", label: "Home" },
+            { id: "skills", label: "Skills" },
+            { id: "projects", label: "Projects" },
+            { id: "experience", label: "Experience" },
+            { id: "contact", label: "Contact" },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollToSection(item.id)}
+              className={`transition-colors hover:text-purple-400 ${
+                activeSection === item.id ? "text-purple-400" : "text-white"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      {/* HERO */}
+      <section id="hero" className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-5xl md:text-7xl font-extrabold mb-4"
+        >
+          Hi, I'm <span className="text-purple-400">Akshat Negi</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="text-xl max-w-2xl text-gray-300"
+        >
+          I enjoy working with data, discovering patterns, building meaningful visualizations, and creating interactive applications.
+        </motion.p>
+
+        <div className="flex gap-6 text-3xl mt-10">
+          <a href="https://www.linkedin.com/in/akshat-negi-2104442a1/" className="hover:text-purple-400"><Linkedin /></a>
+          <a href="https://github.com/AkshatNegi19" className="hover:text-purple-400"><Github /></a>
+          <a href="mailto:negiakt05@gmail.com" className="hover:text-purple-400"><Mail /></a>
+          <a href="tel:+918448452123" className="hover:text-purple-400"><Phone /></a>
+        </div>
+      </section>
+
+      {/* SKILLS */}
+      <section id="skills" className="min-h-screen flex justify-center items-center px-6 py-20">
+        <SkillsSection />
+      </section>
+
+      {/* PROJECTS */}
+      <section id="projects" className="min-h-screen px-6 py-20">
+        <h2 className="text-5xl font-bold text-center mb-16">
+          My <span className="text-purple-500">Projects</span>
+        </h2>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+          {/* MERN AUTH */}
+          <motion.div whileHover={{ y: -10 }} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden shadow-lg">
+            <img src={mernImg} alt="MERN Auth" className="h-56 w-full object-cover"/>
+            <div className="p-6">
+              <h3 className="text-2xl mb-2">MERN Authentication System</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                JWT, Email Verification & Password Reset with secure authentication flow
+              </p>
+              <a
+                href="https://github.com/AkshatNegi19/Mern-Auth"
+                target="_blank"
+                className="block text-center w-full py-2 bg-purple-600 rounded-lg hover:bg-purple-700"
+              >
+                View Project
+              </a>
+            </div>
+          </motion.div>
+
+          {/* KLIMATE */}
+          <motion.div whileHover={{ y: -10 }} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden shadow-lg">
+            <img src={klimateImg} alt="Klimate" className="h-56 w-full object-cover"/>
+            <div className="p-6">
+              <h3 className="text-2xl mb-2">Klimate Weather App</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                Real-time weather app using OpenWeather API
+              </p>
+              <a
+                href="https://github.com/AkshatNegi19/Klimate"
+                target="_blank"
+                className="block text-center w-full py-2 bg-purple-600 rounded-lg hover:bg-purple-700"
+              >
+                View Project
+              </a>
+            </div>
+          </motion.div>
+
+          {/* CHURN */}
+          <motion.div whileHover={{ y: -10 }} className="bg-white/5 rounded-xl border border-white/10 overflow-hidden shadow-lg">
+            <img src={churnImg} alt="Churn Analysis" className="h-56 w-full object-cover"/>
+            <div className="p-6">
+              <h3 className="text-2xl mb-2">Customer Churn Analysis</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                SQL + Power BI + Data visualizations
+              </p>
+              <a
+                href="https://github.com/AkshatNegi19/Churn-Analysis"
+                target="_blank"
+                className="block text-center w-full py-2 bg-purple-600 rounded-lg hover:bg-purple-700"
+              >
+                View Project
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* EXPERIENCE */}
+      <section id="experience" className="min-h-screen px-10 py-20 flex flex-col justify-center">
+        <h2 className="text-4xl font-bold mb-14 text-center">Experience</h2>
+        <div className="relative bg-[#060a14] border border-[#1f2937] p-10 rounded-2xl max-w-5xl mx-auto">
+          {/* LINK ICON */}
+          <a
+            href="https://www.linkedin.com/posts/akshat-negi-2104442a1_dataanalytics-internship-careergrowth-activity-7232607766257786880-z95G?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEjboCwBvb0FUyQkVoI42hApNiwvmmnM2Kc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-6 right-6"
+          >
+            <svg
+              className="w-6 h-6 text-indigo-500 hover:scale-110 transition-transform"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z" />
+              <path d="M5 5h5V3H3v7h2V5zm0 14v-5H3v7h7v-2H5z" />
+            </svg>
+          </a>
+
+          <h3 className="text-2xl font-semibold mb-2">Data Analyst Intern | IBM with CSRBOX, Delhi</h3>
+          <p className="text-gray-400 mb-6">Jun 24 - Aug 24</p>
+
+          <ul className="list-disc pl-6 space-y-3 text-gray-300 text-lg">
+            <li>Completed a structured internship focused on data analytics, visualization, and machine learning basics.</li>
+            <li>Performed data cleaning, wrangling, and exploratory analysis using Python and IBM tools.</li>
+            <li>Worked on real-world social impact datasets, including sanitation analysis in urban areas, contributing to better data-driven decision-making.</li>
+            <li>Built dashboards using Power BI and Tableau, showcasing insights through KPIs, trends, and charts.</li>
+            <li>Strengthened skills in EDA, reporting, Excel analytics, and SQL-based transformations.</li>
+          </ul>
+
+          <p className="mt-8 text-indigo-400 font-medium text-lg">
+            Tools: Python, MySQL, Power BI, Tableau, Advanced Excel, EDA, ML basics
+          </p>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section id="contact" className="min-h-screen flex items-center justify-center px-6 py-20 bg-[#050508]">
+        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-16">
+          {/* LEFT - INFO */}
+          <div>
+            <h2 className="text-4xl font-bold mb-4">Get In <span className="text-purple-500">Touch</span></h2>
+            <p className="text-gray-400 mb-10 max-w-md">
+              Have a project in mind or want to collaborate? Feel free to reach out. I'm always open to new opportunities.
+            </p>
+
+            <div className="space-y-8">
+              <div className="flex items-center gap-4">
+                <Mail className="text-purple-500"/>
+                <div>
+                  <p className="text-gray-400">Email</p>
+                  <p className="font-semibold">negiakt05@gmail.com</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <Phone className="text-purple-500"/>
+                <div>
+                  <p className="text-gray-400">Phone</p>
+                  <p className="font-semibold">+91 8448452123</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <MapPin className="text-purple-500"/>
+                <div>
+                  <p className="text-gray-400">Location</p>
+                  <p className="font-semibold">Delhi, India</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-6 text-2xl mt-10">
+              <a href="https://www.linkedin.com/in/akshat-negi-2104442a1/" className="hover:text-purple-400"><Linkedin /></a>
+              <a href="https://github.com/AkshatNegi19" className="hover:text-purple-400"><Github /></a>
+            </div>
+          </div>
+
+          {/* RIGHT - DOWNLOAD RESUME */}
+          <div className="bg-[#0a0a0f] p-12 rounded-2xl border border-white/10 shadow-xl flex flex-col items-center justify-center text-center">
+            <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">Download My Resume</h3>
+            <p className="text-gray-400 mb-10 text-lg md:text-xl max-w-md">
+              Explore my latest resume to see my skills, projects, and professional experience. Download it to keep a copy or share with anyone you like.
+            </p>
+            <a
+              href="/AkshatNegi_Resume.pdf" // replace with your resume path
+              download
+              className="flex items-center gap-3 px-6 py-4 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-4-4m4 4l4-4m-4-12v8" />
+              </svg>
+              Download Resume
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="py-6 text-center text-white">© 2025 Akshat Negi</footer>
+    </div>
+  );
+}
