@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "type": "module",
   "homepage": "https://akshatnegi19.github.io/Resume",
-
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,7 +11,6 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-
   "dependencies": {
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.525.0",
@@ -20,8 +18,8 @@
     "react-dom": "^18.2.0",
     "three": "^0.181.2"
   },
-
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@types/three": "^0.181.0",

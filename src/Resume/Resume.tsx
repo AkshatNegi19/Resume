@@ -361,26 +361,40 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* RIGHT - DOWNLOAD RESUME */}
-          <div className="bg-[#0a0a0f] p-12 rounded-2xl border border-white/10 shadow-xl flex flex-col items-center justify-center text-center">
-            <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">Download My Resume</h3>
-            <p className="text-gray-400 mb-10 text-lg md:text-xl max-w-md">
-              Explore my latest resume to see my skills, projects, and professional experience. Download it to keep a copy or share with anyone you like.
-            </p>
-            <a
-              href="/AkshatNegi_Resume.pdf" // replace with your resume path
-              download
-              className="flex items-center gap-3 px-6 py-4 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-4-4m4 4l4-4m-4-12v8" />
-              </svg>
-              Download Resume
-            </a>
-          </div>
+{/* RIGHT - DOWNLOAD RESUME */}
+<div className="bg-[#0a0a0f] p-12 rounded-2xl border border-white/10 shadow-xl flex flex-col items-center justify-center text-center">
+  <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">Download My Resume</h3>
+  <p className="text-gray-400 mb-10 text-lg md:text-xl max-w-md">
+    Explore my latest resume to see my skills, projects, and professional experience. Download it to keep a copy or share with anyone you like.
+  </p>
+
+  <a
+    href="../../public/AKSHAT RESUME.pdf" 
+    download="AkshatNegi_Resume.pdf"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-3 px-6 py-4 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105"
+  >
+    {/* Download Icon */}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-4-4m4 4l4-4m-4-12v8"
+      />
+    </svg>
+    Download Resume
+  </a>
+</div>
         </div>
       </section>
-
       <footer className="py-6 text-center text-white">© 2025 Akshat Negi</footer>
     </div>
   );
