@@ -369,29 +369,26 @@ export default function Portfolio() {
   </p>
 
   <a
-    href="../../public/AKSHAT RESUME.pdf" 
-    download="AkshatNegi_Resume.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="flex items-center gap-3 px-6 py-4 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold text-white transition-all duration-300 transform hover:scale-105"
+  href="/Resume/AKHSAT_RESUME.pdf"
+  download="Akshat_Negi_Resume.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center gap-3 px-8 py-4 bg-purple-600 rounded-full text-white font-semibold text-lg hover:bg-purple-700 transition"  
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-6 h-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
   >
-    {/* Download Icon */}
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v8m0 0l-4-4m4 4l4-4m-4-12v8"
-      />
-    </svg>
-    Download Resume
-  </a>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+      d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16" />
+  </svg>
+
+  Download Resume
+</a>
+
 </div>
         </div>
       </section>
